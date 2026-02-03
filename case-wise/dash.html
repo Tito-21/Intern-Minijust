@@ -2,46 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaseWise | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="navbar">
-    <h2>⚖️ CaseWise</h2>
-    <button onclick="logout()">Logout</button>
-</div>
-
-<div class="container">
-    <div class="sidebar">
-        <a href="#">Case Registration</a>
-        <a href="#">My Cases</a>
-        <a href="#">Laws</a>
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-balance-scale"></i>
+            <span>CaseWise</span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
     </div>
 
-    <div class="main">
-        <h3>Case Overview</h3>
-
-        <div class="cards">
-            <div class="card">Active Cases: 18</div>
-            <div class="card">Pending Judgments: 4</div>
-            <div class="card">Hearings This Week: 6</div>
+    <div class="container">
+        <div class="sidebar">
+            <a href="#" class="active" id="caseRegistration">
+                <i class="fas fa-folder-plus"></i> Case Registration
+            </a>
+            <a href="#" id="myCases">
+                <i class="fas fa-folder"></i> My Cases
+            </a>
+            <a href="#" id="laws">
+                <i class="fas fa-book"></i> Laws
+            </a>
         </div>
 
-        <h3>Upcoming Deadlines</h3>
-        <ul>
-            <li>Case #100 – Jan 30</li>
-            <li>Case #110 – Feb 2</li>
-        </ul>
+        <div class="main">
+            <h1>Case Management</h1>
+            
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search cases...">
+                </div>
+                
+                <div class="filters">
+                    <span>Filters:</span>
+                    <div class="filter-dropdown" id="caseNumberFilter" data-column="2">
+                        <span>Case Number <i class="fas fa-chevron-down"></i></span>
+                        <div class="filter-options" id="caseNumberOptions"></div>
+                    </div>
+                    <div class="filter-dropdown" id="suspectFilter" data-column="0">
+                        <span>Suspect <i class="fas fa-chevron-down"></i></span>
+                        <div class="filter-options" id="suspectOptions"></div>
+                    </div>
+                    <div class="filter-dropdown" id="victimFilter" data-column="1">
+                        <span>Victim <i class="fas fa-chevron-down"></i></span>
+                        <div class="filter-options" id="victimOptions"></div>
+                    </div>
+                    <div class="filter-dropdown" id="namesFilter" data-column="0,1">
+                        <span>Names <i class="fas fa-chevron-down"></i></span>
+                        <div class="filter-options" id="namesOptions"></div>
+                    </div>
+                </div>
+            </div>
 
-        <h3>Recent Cases</h3>
-        <ul>
-            <li>State v kalisa</li>
-            <li>Republic v Manzi </li>
-        </ul>
+            <div class="cases-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Case Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cedric</td>
+                            <td>Manzi</td>
+                            <td>CW-2026-001</td>
+                        </tr>
+                        <tr>
+                            <td>Jane</td>
+                            <td>Muhoza</td>
+                            <td>CW-2026-002</td>
+                        </tr>
+                        <tr>
+                            <td>Patrick</td>
+                            <td>Uwase</td>
+                            <td>CW-2026-003</td>
+                        </tr>
+                        <tr>
+                            <td>Marie</td>
+                            <td>Ineza</td>
+                            <td>CW-2026-004</td>
+                        </tr>
+                        <tr>
+                            <td>John</td>
+                            <td>Mugisha</td>
+                            <td>CW-2026-005</td>
+                        </tr>
+                        <tr>
+                            <td>Alice</td>
+                            <td>Kayitesi</td>
+                            <td>CW-2026-006</td>
+                        </tr>
+                        <tr>
+                            <td>Robert</td>
+                            <td>Niyonzima</td>
+                            <td>CW-2026-007</td>
+                        </tr>
+                        <tr>
+                            <td>Grace</td>
+                            <td>Mukantwari</td>
+                            <td>CW-2026-008</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="new-case-btn">
+                <i class="fas fa-plus"></i> Register New Case
+            </button>
+        </div>
     </div>
-</div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
