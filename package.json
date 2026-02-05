@@ -1,0 +1,11 @@
+{
+  "name": "intern-minijust",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd first-case && next dev",
+    "build": "cd first-case && next build",
+    "start": "cd first-case && next start",
+    "lint": "cd first-case && eslint ."
+  }
+}
