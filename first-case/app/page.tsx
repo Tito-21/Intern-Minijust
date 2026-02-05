@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Search, Filter, Plus, ChevronDown, X, Eye, Calendar, FileText, User, Scale } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 // Sample case data with more details
 interface Case {
@@ -103,6 +104,8 @@ export default function CaseWiseDashboard() {
   const [currentView, setCurrentView] = useState<"registration" | "myCases" | "laws">("registration")
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [selectedCase, setSelectedCase] = useState<Case | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const router = useRouter()
   
   // Form state
   const [formData, setFormData] = useState({
@@ -112,6 +115,21 @@ export default function CaseWiseDashboard() {
     description: "",
     assignedTo: "",
   })
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const auth = localStorage.getItem("isAuthenticated")
+    if (auth === "true") {
+      setIsAuthenticated(true)
+    } else {
+      router.push("/login")
+    }
+  }, [router])
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated")
+    router.push("/login")
+  }
 
   const toggleFilter = (filter: string) => {
     setActiveFilter(activeFilter === filter ? null : filter)
@@ -173,13 +191,24 @@ export default function CaseWiseDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    !isAuthenticated ? (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-800 mx-auto"></div>
+          <p className="mt-2 text-slate-600">Loading...</p>
+        </div>
+      </div>
+    ) : (
+      <div className="min-h-screen bg-slate-50">
       {/* Navbar */}
       <nav className="bg-slate-800 text-white px-6 py-4 flex items-center justify-between shadow-md">
         <h1 className="text-xl font-semibold flex items-center gap-2">
           <Scale className="w-6 h-6" /> CaseWise
         </h1>
-        <button className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md text-sm transition-colors">
+        <button 
+          onClick={handleLogout}
+          className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md text-sm transition-colors"
+        >
           Logout
         </button>
       </nav>
@@ -608,6 +637,7 @@ export default function CaseWiseDashboard() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    )
   )
 }
