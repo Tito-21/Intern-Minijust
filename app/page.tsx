@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { Search, Filter, Plus, ChevronDown, X, Eye, Calendar, FileText, User, Scale } from "lucide-react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { Search, Filter, Plus, ChevronDown, X, Eye, Calendar, FileText, User, Scale, LogOut } from "lucide-react"
 
 // Sample case data with more details
 interface Case {
@@ -96,6 +97,7 @@ const caseTypes = ["Civil Dispute", "Family Law", "Criminal", "Commercial", "Lab
 const judges = ["Judge Uwimana", "Judge Habimana", "Judge Mugabo", "Judge Niyonzima"]
 
 export default function CaseWiseDashboard() {
+  const router = useRouter()
   const [cases, setCases] = useState<Case[]>(initialCases)
   const [searchQuery, setSearchQuery] = useState("")
   const [activeFilter, setActiveFilter] = useState<string | null>(null)
@@ -103,6 +105,18 @@ export default function CaseWiseDashboard() {
   const [currentView, setCurrentView] = useState<"registration" | "myCases" | "laws">("registration")
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [selectedCase, setSelectedCase] = useState<Case | null>(null)
+  const [userEmail, setUserEmail] = useState("")
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn")
+    const email = localStorage.getItem("userEmail")
+    
+    if (!isLoggedIn) {
+      router.push("/login")
+    } else {
+      setUserEmail(email || "")
+    }
+  }, [])
   
   // Form state
   const [formData, setFormData] = useState({
@@ -123,6 +137,12 @@ export default function CaseWiseDashboard() {
       [filter]: prev[filter] === option ? "" : option,
     }))
     setActiveFilter(null)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn")
+    localStorage.removeItem("userEmail")
+    router.push("/login")
   }
 
   const handleRegisterCase = () => {
@@ -179,9 +199,16 @@ export default function CaseWiseDashboard() {
         <h1 className="text-xl font-semibold flex items-center gap-2">
           <Scale className="w-6 h-6" /> CaseWise
         </h1>
-        <button className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md text-sm transition-colors">
-          Logout
-        </button>
+        <div className="flex items-center gap-4">
+          {userEmail && <span className="text-sm text-slate-300">{userEmail}</span>}
+          <button 
+            onClick={handleLogout}
+            className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md text-sm transition-colors flex items-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
+        </div>
       </nav>
 
       <div className="flex">
