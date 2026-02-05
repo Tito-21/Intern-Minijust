@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 import subprocess
 import sys
+import os
 
 try:
+    # Change to project directory
+    os.chdir('/vercel/share/v0-project')
+    print(f"Working directory: {os.getcwd()}")
+    
     # Add all changes
-    subprocess.run(['git', 'add', '.'], cwd='/vercel/share/v0-project', check=True)
+    subprocess.run(['git', 'add', '.'], check=True)
     print("Added all changes to staging area")
     
     # Commit with message 'first case'
-    subprocess.run(['git', 'commit', '-m', 'first case'], cwd='/vercel/share/v0-project', check=True)
+    subprocess.run(['git', 'commit', '-m', 'first case'], check=True)
     print("Committed with message 'first case'")
     
     # Push to GitHub
-    subprocess.run(['git', 'push', 'origin', 'code-review-and-fix'], cwd='/vercel/share/v0-project', check=True)
+    subprocess.run(['git', 'push', 'origin', 'code-review-and-fix'], check=True)
     print("Pushed to GitHub successfully")
     
     print("\nGit commit and push completed successfully!")
